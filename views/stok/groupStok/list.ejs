@@ -1,0 +1,23 @@
+<style>
+    a {
+        color: inherit; /* blue colors for links too */
+        text-decoration: inherit; /* no underline */
+    }
+</style>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Kode</th>
+            <th scope="col">Nama Group</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for(let groupStok of groupStoks) {%>
+            <tr>
+                <th scope="row"><%= groupStok.kode %></th>
+                <td><a href="/stoks/groupStok/<%= groupStok._id %>"><%= groupStok.namaGroupStok %></a></td>
+            </tr> 
+        <% } %>     
+    </tbody>
+</table>

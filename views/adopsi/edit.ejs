@@ -1,0 +1,184 @@
+<% layout('layouts/boilerplate') %> 
+
+<style>
+        @media (max-width: 800px) {
+        .wrapper {
+            flex-direction: column;
+        }
+    }
+    .keterangan {
+        width: 96%;
+        background-color: #B2BABB;
+    }
+    hr {
+        color: gray;
+        border: 3px solid gray;
+    }
+    button {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+    }
+    .long {
+        width: 98%;
+    }
+    .carousel-control-next,
+    .carousel-control-prev /*, .carousel-indicators */ {
+        filter: invert(100%);
+    }
+    .carousel {
+        width: 250px;
+        height: 200px;
+    }
+    img {
+        width: 200px;
+        height: 200px;
+    }
+    .img-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+    .index-wrapper {
+        border: 1px solid #B2BABB;
+        padding-top: 15px;
+        border-radius: 10px;
+        background-color: #D6EAF8;
+        margin-top: 20px;
+    }
+    .carousel-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .add-btn {
+        margin-top: 20px;
+    }
+    .wrapper {
+        border: 1px solid #CCD1D1;
+        border-radius: 10px;
+        margin: 20px 0px;
+        display: flex;
+        padding-top: 10px;
+    }
+    .list-wrapper {
+        display: flex;
+        flex: 2;
+    }
+    .detail-wrapper {
+        flex: 1;
+    }
+    .detail-data-wrapper {
+        flex: 3;
+    }
+    .list-details {
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 17px;
+    }
+    .harga-wrapper {
+        flex: 2;
+    }
+    .add-flex {
+        flex: 3;
+    }
+    .margin-right {
+        margin-right: 5px;
+    }
+    .add-margin-bottom {
+        margin-top: 102px;
+    }
+    .margin-bottom-text-area {
+        margin-bottom: 12px;
+    }
+    .sizing-select {
+        height: 35px;
+        font-size: 15px;
+    }
+</style>
+
+<div class="container index-wrapper">
+    <h3>ADOPSI HEWAN</h3>
+    <h4>Tambah Gambar</h4>
+    <form action="/adopsi/<%= animal._id %>?_method=PUT" method="POST" class="new-form" enctype="multipart/form-data">
+        <div class="input-group mb-3">
+            <input type="file" class="form-control" id="image" name="image" multiple>
+        </div>
+        <% animal.images.forEach(function(img, i) { %> 
+            <div class="mb-3">
+                <img src="<%= img.thumbnail %> " alt="">
+                <div class="form-check-inline">
+                    <input type="checkbox" id="image-<%= i %>" name="deleteImages[]" value="<%= img.filename %>">
+                </div>
+                <label for="image-<%= i %>">Hapus</label>
+            </div>
+        <% }) %>     
+        <div class="container wrapper">
+            <div class="list-wrapper">
+                <div class="detail-wrapper">
+                    <p class="list-details">Nama</p>
+                    <p class="list-details">Jenis Hewan</p>
+                    <p class="list-details">Jenis Kelamin</p>
+                    <p class="list-details">Umur</p>
+                    <p class="list-details">Lokasi</p>
+                    <p class="list-details">Kontak</p>
+                    <p class="list-details">Deskripsi</p>
+                </div>
+                <div class="detail-data-wrapper">
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input class="long" type="text" name="nama" id="nama" placeholder="Nama" value="<%= animal.nama %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input class="long" type="text" name="kategori" id="kategori" placeholder="Kategori" value="<%= animal.kategori %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <select class="form-select long" aria-label="Default select example" name="jenisKelamin" id="jenisKelamin" style="height: 30px; font-size: 13px;">
+                                <option selected value="<%= animal.jenisKelamin %>"><%= animal.jenisKelamin %></option>
+                                <option value="Jantan">Jantan</option>
+                                <option value="Betina">Betina</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input class="long" type="text" name="umur" id="umur" placeholder="Umur" value="<%= animal.umur %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input class="long" type="text" name="location" id="location" placeholder="Lokasi" value="<%= animal.location %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input class="long" type="text" name="kontak" id="kontak" placeholder="Kontak" value="<%= animal.kontak %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper margin-bottom-text-area">
+                            <textarea class="form-control" id="description" name="description" rows="4"><%= animal.description %></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <button class="btn btn-success">Submit</button>
+    </form>
+    <br>
+    <a href="/adopsi/<%= animal._id %>">back</a>
+</div>

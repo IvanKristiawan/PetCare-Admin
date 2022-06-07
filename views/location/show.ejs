@@ -1,0 +1,186 @@
+<% layout('layouts/boilerplate') %> 
+
+<style>
+    @media (max-width: 800px) {
+        .wrapper {
+            flex-direction: column;
+        }
+    }
+    .keterangan {
+        width: 96%;
+        background-color: #B2BABB;
+    }
+    hr {
+        color: gray;
+        border: 3px solid gray;
+    }
+    button {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+    }
+    .long {
+        width: 98%;
+    }
+    .carousel-control-next,
+    .carousel-control-prev /*, .carousel-indicators */ {
+        filter: invert(100%);
+    }
+    .carousel {
+        width: 250px;
+        height: 200px;
+    }
+    img {
+        width: 200px;
+        height: 200px;
+    }
+    .img-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+    .index-wrapper {
+        border: 1px solid #B2BABB;
+        padding-top: 15px;
+        border-radius: 10px;
+        background-color: #D6EAF8;
+        margin-top: 20px;
+    }
+    .carousel-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .add-btn {
+        margin-top: 20px;
+    }
+    .wrapper {
+        border: 1px solid #CCD1D1;
+        border-radius: 10px;
+        margin: 20px 0px;
+        display: flex;
+        padding-top: 10px;
+    }
+    .list-wrapper {
+        display: flex;
+        flex: 2;
+    }
+    .detail-wrapper {
+        flex: 1;
+    }
+    .detail-data-wrapper {
+        flex: 3;
+    }
+    .list-details {
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 17px;
+    }
+    .harga-wrapper {
+        flex: 2;
+    }
+    .add-flex {
+        flex: 3;
+    }
+    .margin-right {
+        margin-right: 5px;
+    }
+    .add-margin-bottom {
+        margin-top: 102px;
+    }
+    .margin-bottom-text-area {
+        margin-bottom: 12px;
+    }
+    .sizing-select {
+        height: 35px;
+        font-size: 15px;
+    }
+</style>
+
+<div class="container index-wrapper">
+    <h3>RUMAH SAKIT HEWAN</h3>
+    <div class="container">
+        <form class="d-flex" action="/location/search" method="POST">
+            <input class="form-control me-2" placeholder="Cari Lokasi" aria-label="Search" type="text" name="title" id="title">
+            <button class="btn btn-outline-dark" type="submit">Search</button>
+        </form>
+        <a href="/location/<%= location._id %>/edit"><button class="btn btn-warning add-btn">Edit</button></a>
+        <form action="/location/<%= location._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-danger" style="margin-top: 10px;">Delete</button>
+            <% location.images.forEach(function(img, i) { %> 
+                <input type="text" id="image-<%= i %>" name="deleteImages[]" value="<%= img.filename %>" style="visibility: hidden;">
+            <% }) %>     
+        </form>
+    </div>
+    <div class="carousel-wrapper">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <% location.images.forEach((img, i) => {%>
+                <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                    <img src="<%= img.url %>" class="d-block w-100" alt="...">
+                </div>
+              <% }) %>    
+            </div>
+            <% if(location.images.length > 1) {%> 
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                </button>
+            <% } %> 
+        </div>
+    </div>
+    <div class="container wrapper">
+        <div class="list-wrapper">
+            <div class="detail-wrapper">
+                <p class="list-details">Nama Rumah Sakit Hewan</p>
+                <p class="list-details">Lokasi</p>
+                <p class="list-details">Latitude</p>
+                <p class="list-details">Longitude</p>
+                <p class="list-details">Link Lokasi</p>
+                <p class="list-details">Deskripsi</p>
+            </div>
+            <div class="detail-data-wrapper">
+                <div class="list-wrapper">
+                    <p class="margin-right">:</p>
+                    <div class="detail-wrapper">
+                        <input class="long" type="text" value="<%= location.title %>" readonly="readonly">
+                    </div>
+                </div>
+                <div class="list-wrapper">
+                    <p class="margin-right">:</p>
+                    <div class="detail-wrapper">
+                        <input class="long" type="text" value="<%= location.location %>" readonly="readonly">
+                    </div>
+                </div>
+                <div class="list-wrapper">
+                    <p class="margin-right">:</p>
+                    <div class="detail-wrapper">
+                        <input class="long" type="text" value="<%= location.latitude %>" readonly="readonly">
+                    </div>
+                </div>
+                <div class="list-wrapper">
+                    <p class="margin-right">:</p>
+                    <div class="detail-wrapper">
+                        <input class="long" type="text" value="<%= location.longitude %>" readonly="readonly">
+                    </div>
+                </div>
+                <div class="list-wrapper">
+                    <p class="margin-right">:</p>
+                    <div class="detail-wrapper margin-bottom-text-area">
+                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" readonly="readonly"><%= location.description %></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row list-container">
+        </div>
+    </div>
+    <a href="/location">back</a>
+</div>

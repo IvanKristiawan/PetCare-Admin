@@ -1,0 +1,268 @@
+<% layout('layouts/boilerplate') %> 
+
+<style>
+        @media (max-width: 800px) {
+        .wrapper {
+            flex-direction: column;
+        }
+    }
+    .keterangan {
+        width: 96%;
+        background-color: #B2BABB;
+    }
+    hr {
+        color: gray;
+        border: 3px solid gray;
+    }
+    button {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+    }
+    .long {
+        width: 98%;
+    }
+    .carousel-control-next,
+    .carousel-control-prev /*, .carousel-indicators */ {
+        filter: invert(100%);
+    }
+    .carousel {
+        width: 250px;
+        height: 200px;
+    }
+    img {
+        width: 200px;
+        height: 200px;
+    }
+    .img-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+    .index-wrapper {
+        border: 1px solid #B2BABB;
+        padding-top: 15px;
+        border-radius: 10px;
+        background-color: #D6EAF8;
+        margin-top: 20px;
+    }
+    .carousel-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .add-btn {
+        margin-top: 20px;
+    }
+    .wrapper {
+        border: 1px solid #CCD1D1;
+        border-radius: 10px;
+        margin: 20px 0px;
+        display: flex;
+        padding-top: 10px;
+    }
+    .list-wrapper {
+        display: flex;
+        flex: 2;
+    }
+    .detail-wrapper {
+        flex: 1;
+    }
+    .detail-data-wrapper {
+        flex: 3;
+    }
+    .list-details {
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 17px;
+    }
+    .harga-wrapper {
+        flex: 2;
+    }
+    .add-flex {
+        flex: 3;
+    }
+    .margin-right {
+        margin-right: 5px;
+    }
+    .add-margin-bottom {
+        margin-top: 102px;
+    }
+    .margin-bottom-text-area {
+        margin-bottom: 12px;
+    }
+    .sizing-select {
+        height: 35px;
+        font-size: 15px;
+    }
+</style>
+
+<div class="btn-group dropend">
+    <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      Stok
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/stoks/groupStok">Group Stok</a></li>
+        <li><a class="dropdown-item" href="/stoks/subGroupStok">Sub Group Stok</a></li>
+        <li><a class="dropdown-item" href="/stoks/stok">Stok</a></li>
+    </ul>
+</div>
+<div class="container index-wrapper">
+    <h3>STOK</h3>
+    <h4>Tambah Gambar</h4>
+    <form action="/stoks/stok/<%= stok._id %>?_method=PUT" method="POST" class="new-form" enctype="multipart/form-data">
+        <div class="input-group mb-3">
+            <input type="file" class="form-control" id="image" name="image" multiple>
+        </div>
+        <% stok.images.forEach(function(img, i) { %> 
+            <div class="mb-3">
+                <img src="<%= img.thumbnail %> " alt="">
+                <div class="form-check-inline">
+                    <input type="checkbox" id="image-<%= i %>" name="deleteImages[]" value="<%= img.filename %>">
+                </div>
+                <label for="image-<%= i %>">Hapus</label>
+            </div>
+        <% }) %>     
+        <div class="container wrapper">
+            <div class="list-wrapper">
+                <div class="detail-wrapper">
+                    <p class="list-details">Group</p>
+                    <p class="list-details">Sub Group</p>
+                    <p class="list-details">Kode</p>
+                    <p class="list-details">Nama</p>
+                    <p class="list-details">Merk</p>
+                    <p class="list-details">Nama Satuan</p>
+                    <p class="list-details">Jumlah Stok</p>
+                    <p class="list-details">Resep Dokter</p>
+                    <p class="list-details">Harga Beli</p>
+                    <p class="list-details">Harga Jual</p>
+                    <p class="list-details">Deskripsi</p>
+                    <p class="list-details add-margin-bottom">Indikasi Umum</p>
+                    <p class="list-details add-margin-bottom">Komposisi</p>
+                    <p class="list-details add-margin-bottom">Aturan Pakai</p>
+                </div>
+                <div class="detail-data-wrapper">
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <select class="form-select choose-box sizing-select" id="kode" name="kode">
+                                <option selected value="<%= stok.kode %>"><%= stok.kode %></option>
+                                <% for(let groupStok of groupStoks) {%>
+                                    <option value="<%= groupStok.kode %>"><%= groupStok.kode %></option>    
+                                <% } %> 
+                            </select>
+                        </div>
+                        <div class="detail-data-wrapper">
+                            <select class="form-select choose-box sizing-select" id="namaGroupStok" name="namaGroupStok" >
+                                <option selected value="<%= stok.namaGroupStok %>"><%= stok.kode %> - <%= stok.namaGroupStok %></option>
+                                <% for(let groupStok of groupStoks) {%>
+                                    <option value="<%= groupStok.namaGroupStok %>"><%= groupStok.kode %> - <%= groupStok.namaGroupStok %></option>    
+                                <% } %> 
+                            </select>
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <select class="form-select choose-box sizing-select" id="kodeSubGroup" name="kodeSubGroup">
+                                <option selected value="<%= stok.kodeSubGroup %>"><%= stok.kodeSubGroup %></option>
+                                <% for(let subGroupStok of subGroupStoks) {%>
+                                    <option value="<%= subGroupStok.kodeSubGroup %>"><%= subGroupStok.kodeSubGroup %></option>
+                                <% } %>     
+                            </select>
+                        </div>
+                        <div class="detail-data-wrapper">
+                            <select class="form-select choose-box sizing-select" id="namaSubGroup" name="namaSubGroup">
+                                <option selected value="<%= stok.namaSubGroup %>"><%= stok.kodeSubGroup %> - <%= stok.namaSubGroup %></option>
+                                <% for(let subGroupStok of subGroupStoks) {%>
+                                    <option value="<%= subGroupStok.namaSubGroup %>"><%= subGroupStok.kodeSubGroup %> - <%= subGroupStok.namaSubGroup %></option>
+                                <% } %>     
+                            </select>
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input type="text" name="kodeStok" id="kodeStok" placeholder="Kode Stok" value="<%= stok.kodeStok %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input class="long" type="text" name="nama" id="nama" placeholder="Nama" value="<%= stok.nama %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input class="long" type="text" name="merk" id="merk" placeholder="Merk" value="<%= stok.merk %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input class="long" type="text" name="namaSatuan" id="namaSatuan" placeholder="Nama Satuan" value="<%= stok.namaSatuan %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input class="long" type="text" name="jumlahStok" id="jumlahStok" placeholder="Jumlah Stok" value="<%= stok.jumlahStok %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <select class="form-select sizing-select" aria-label="Default select example" name="resepDokter" id="resepDokter" placeholder="group">
+                                <option value="BUTUH RESEP DOKTER" selected>BUTUH RESEP DOKTER</option>
+                                <option value="TIDAK BUTUH RESEP DOKTER">TIDAK BUTUH RESEP DOKTER</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input class="long" type="text" id="hargaBeli" name="hargaBeli" value="<%= stok.hargaBeli %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper">
+                            <input class="long" type="text" id="hargaJual" name="hargaJual" value="<%= stok.hargaJual %>">
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper margin-bottom-text-area">
+                            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4"><%= stok.deskripsi %></textarea>
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper margin-bottom-text-area">
+                            <textarea class="form-control" id="indikasiUmum" name="indikasiUmum" rows="4"><%= stok.indikasiUmum %></textarea>
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper margin-bottom-text-area">
+                            <textarea class="form-control" id="komposisi" name="komposisi" rows="4"><%= stok.komposisi %></textarea>
+                        </div>
+                    </div>
+                    <div class="list-wrapper">
+                        <p class="margin-right">:</p>
+                        <div class="detail-wrapper margin-bottom-text-area">
+                            <textarea class="form-control" id="aturanPakai" name="aturanPakai" rows="4"><%= stok.aturanPakai %></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <button class="btn btn-success">Submit</button>
+    </form>
+    <br>
+    <a href="/stoks/stok/<%= stok._id %>">back</a>
+</div>

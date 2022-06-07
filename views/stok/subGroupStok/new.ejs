@@ -1,0 +1,66 @@
+<% layout('layouts/boilerplate') %> 
+
+<style>
+    #kode {
+        border: 1px solid #B2BABB;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+    .new-container {
+        background-color: #D6EAF8;
+        border: 1px solid #B2BABB;
+        border-radius: 10px;
+    }
+    .new-form {
+        margin: 20px 0px;
+    }
+    .edit-container {
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="container new-container">
+    <h1>TAMBAH SUB GROUP STOK</h1>
+    <form action="/stoks/subGroupStok" method="POST" class="new-form">
+        <div class="edit-container">
+            <label for="group">Kode Group</label>
+            <select class="form-select" aria-label="Default select example" id="kode" name="kode" placeholder="kode">
+                <option selected>Pilih</option>
+                <% for(let groupStok of groupStoks) {%>
+                    <option value="<%= groupStok.kode %>"><%= groupStok.kode %> - <%= groupStok.namaGroupStok %></option>
+                <% } %>  
+            </select>
+        </div>
+        <div class="edit-container">
+            <label for="group">Nama Group</label>
+            <select class="form-select" aria-label="Default select example" id="namaGroupStok" name="namaGroupStok" placeholder="namaGroupStok">
+                <option selected>Pilih</option>
+                <% for(let groupStok of groupStoks) {%>
+                    <option value="<%= groupStok.namaGroupStok %>"><%= groupStok.namaGroupStok %></option>
+                <% } %>  
+            </select>
+        </div>
+        <div class="input-group mb-3">
+            <div class="col-md-2">
+                <span class="input-group-text text-light bg-dark" id="inputGroup-sizing-default">Kode Sub Group Stok</span>
+            </div>
+            <div class="col-md-10">
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="kodeSubGroup" id="kodeSubGroup">
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <div class="col-md-2">
+                <span class="input-group-text text-light bg-dark" id="inputGroup-sizing-default">Nama SubGroup</span>
+            </div>
+            <div class="col-md-10">
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="namaSubGroup" id="namaSubGroup">
+            </div>
+        </div>
+      <button class="btn btn-primary">Submit</button>
+    </form>
+    <a href="/stoks/subGroupStok">back</a>
+  </div>
+  
+  <script>
+    // document.getElementById('kode').readOnly = true;
+  </script>
